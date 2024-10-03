@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- NuGet package -->
+    <IsPackable>true</IsPackable>
+    <Version>1.0.0</Version>
+    <Title>Base64Guid</Title>
+    <Description>Convert Guid to a short Base 64 Guid.</Description>
+    <RepositoryUrl>https://github.com/ryanhossain9797/devtoys_base_64_guid</RepositoryUrl>
+    <Authors>Raiyan Hossain</Authors>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>devtoys-app</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(RepoRoot)LICENSE.md" Pack="true" PackagePath="" />
+    <None Include="$(RepoRoot)README.md" Pack="true" PackagePath="" />
+
+    <!-- This makes sure to include platform-specific binaries into the NuGet package, if any-->
+    <None Include="runtimes\**" Pack="true" PackagePath="\lib\net8.0\runtimes\">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- This makes sure to include dependencies of the project into the NuGet package, if any -->
+  <Target Name="IncludeAllFilesInTargetDir" BeforeTargets="_GetPackageFiles">
+    <ItemGroup>
+      <None Include="$(OutputPath)\**">
+        <Pack>true</Pack>
+        <PackagePath>lib\net8.0</PackagePath>
+      </None>
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="DevToys.Api" Version="2.0.5-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Base64Guid.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Base64Guid.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Base64Guid.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Base64Guid.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>
